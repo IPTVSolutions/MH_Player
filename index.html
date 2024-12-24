@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dynamic M3U Player</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <div class="video-container">
+      <!-- Video Player -->
+      <video id="videoPlayer" controls></video>
+    </div>
+
+    <!-- Channel Menu on the right side -->
+    <div class="channel-menu">
+      <h1>M3U Player with IPTV</h1>
+      <p>Select a playlist to load:</p>
+
+      <!-- Dropdown menu for playlists -->
+      <div class="dropdown-container">
+        <select id="categorySelect">
+          <option value="">-- Select a Playlist --</option>
+        </select>
+      </div>
+
+      <!-- Playlist list -->
+      <ul id="playlist" class="playlist"></ul>
+    </div>
+  </div>
+
+  <!-- Include hls.js library -->
+  <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+
+  <!-- Include custom script -->
+  <script src="script.js"></script>
+</body>
+</html>
