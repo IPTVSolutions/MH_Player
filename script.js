@@ -3,14 +3,7 @@ const BASE_URL = "https://raw.githubusercontent.com/IPTVSolutions/IPTV_Online/ma
 
 // List of available playlists
 const playlists = [
-<<<<<<< HEAD
   { name: "All TV", file: "playlist_all.m3u8" },
-=======
-  { name: "Turkey", file: "playlist_turkey.m3u8" },
-  { name: "Bulgaria", file: "playlist_bulgaria.m3u8" },
-  { name: "Adult", file:
-"playlist_adult.m3u8" },
->>>>>>> 5a521b01169d8cd16b4747d966ce37ecaf0fb49a
 ];
 
 // Populate the dropdown menu
