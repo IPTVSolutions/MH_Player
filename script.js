@@ -3,8 +3,7 @@ const BASE_URL = "https://raw.githubusercontent.com/IPTVSolutions/IPTV_Online/ma
 
 // List of available playlists
 const playlists = [
-  { name: "Turkey", file: "playlist_turkey.m3u8" },
-  { name: "Bulgaria", file: "playlist_bulgaria.m3u8" },
+  { name: "All TV", file: "playlist_all.m3u8" },
 ];
 
 // Populate the dropdown menu
@@ -15,6 +14,10 @@ playlists.forEach((playlist) => {
   option.textContent = playlist.name;
   categorySelect.appendChild(option);
 });
+
+// Start by automatically selecting the first playlist and loading the first stream
+categorySelect.selectedIndex = 0; // Select the first playlist
+fetchM3U(`${BASE_URL}${playlists[0].file}`);
 
 // Event listener for playlist selection
 categorySelect.addEventListener("change", (event) => {
@@ -49,7 +52,7 @@ function parseM3U(content) {
   playlist.innerHTML = ""; // Clear previous items
 
   let currentChannel = null;
-
+  const channels = []; // Store channels to switch later
   lines.forEach((line) => {
     if (line.startsWith("#EXTINF")) {
       // Extract metadata
@@ -62,11 +65,18 @@ function parseM3U(content) {
       // This is the stream URL
       if (currentChannel) {
         currentChannel.url = line.trim();
+        channels.push(currentChannel);
         createChannelItem(currentChannel, playlist);
         currentChannel = null; // Reset for the next channel
       }
     }
   });
+
+  // Start with the first channel (if available)
+  if (channels.length > 0) {
+    playStream(channels[0].url); // Play the first channel automatically
+    setChannelNavigation(channels); // Set up the key navigation
+  }
 }
 
 // Create a list item for a channel
@@ -141,4 +151,20 @@ function playStream(url) {
     console.error("HLS.js is not supported in this browser.");
     alert("Your browser does not support HLS streaming.");
   }
+}
+
+// Function to set up channel navigation with arrow keys
+function setChannelNavigation(channels) {
+  let currentIndex = 0; // Start with the first channel
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "ArrowDown") {
+      // Move to the next channel
+      currentIndex = (currentIndex + 1) % channels.length;
+      playStream(channels[currentIndex].url);
+    } else if (event.key === "ArrowUp") {
+      // Move to the previous channel
+      currentIndex = (currentIndex - 1 + channels.length) % channels.length;
+      playStream(channels[currentIndex].url);
+    }
+  });
 }
